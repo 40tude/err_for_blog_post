@@ -1,0 +1,16 @@
+[workspace]
+members = [
+    "00_u_are_errors",
+    "01_experimentation",
+    "02_production/00_project",
+    "02_production/01_project",
+    "02_production/02_project",
+    "02_production/03_project",
+    "02_production/04_project",
+]
+resolver = "3" # Read https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions
+
+# Optional: default build profiles for all members
+[profile.release]
+# lto = true
+# codegen-units = 1

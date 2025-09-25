@@ -1,0 +1,7 @@
+[package]
+name = "experimentation"
+version = "0.1.0"
+edition = "2024"
+autobins = false # This line tells Cargo NOT to look for a default src/main.rs binary.
+
+[dependencies]
