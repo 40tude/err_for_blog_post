@@ -29,7 +29,7 @@ fn list_files(path: &str) -> Result<Vec<String>> {
         //      Read : https://doc.rust-lang.org/stable/std/boxed/struct.Box.html#impl-From%3C%26str%3E-for-Box%3Cdyn+Error%3E:~:text=impl%3C%27a%3E%20From%3C%26str%3E%20for%20Box%3Cdyn%20Error%20%2B%20%27a%3E
         //      The variants for String and + Send + Sync also exist
         //
-        .map_err(|_| "❗Error while reading dir.")? // but `?` is here
+        .map_err(|_| "❗Error while reading dir.")? // but `?` is here. We return custom error as static string
         .filter_map(|re| re.ok())
         .filter(|e| e.file_type().map(|ft| ft.is_file()).unwrap_or(false))
         .filter_map(|e| e.file_name().into_string().ok())

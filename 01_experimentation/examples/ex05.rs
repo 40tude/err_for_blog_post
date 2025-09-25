@@ -36,7 +36,7 @@ fn list_files(path: &str) -> Result<Vec<String>> {
         // In Rust if we have From<A> to B we get Into<B> for A for free
         // Here this means Into<Box<dyn Error> for &str exists
         // Then the &str is automatically converted to Box<dyn Error>
-        return Err("Cannot list empty folder.".into());
+        return Err("Cannot list empty folder.".into()); // No `?` because there is a .into()
     }
     Ok(files)
 }

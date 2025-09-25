@@ -1,7 +1,7 @@
 // ex01.rs
 // cargo run --example ex01
 
-// !
+// ! call list_files() from main()
 
 pub type Error = Box<dyn std::error::Error>;
 pub type Result<T> = std::result::Result<T, Error>;

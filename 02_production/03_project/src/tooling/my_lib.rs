@@ -1,6 +1,6 @@
 // mod.rs.01
 
-use crate::Result; // don't forget
+use crate::{Error, Result}; // now we need Result AND Error
 
 pub fn list_files(path: &str) -> Result<Vec<String>> {
     // add pub
@@ -10,7 +10,8 @@ pub fn list_files(path: &str) -> Result<Vec<String>> {
         .filter_map(|e| e.file_name().into_string().ok())
         .collect();
     if files.is_empty() {
-        return Err("Cannot list empty folder.".into());
+        // return Err("Cannot list empty folder.".into());
+        return Err(Error::CantListEmptyFolder);
     }
     Ok(files)
 }

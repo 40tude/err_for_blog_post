@@ -1,5 +1,8 @@
 ## Workspace
-* From the root of the workspace `cargo run -p step_00`
+* From the root of the workspace 
+    * u_are_errors : `cargo run -p u_are_errors --example ex00`
+    * experimentation : `cargo run -p experimentation --example ex00`
+    * production : `cargo run -p step_00`
 * The working directory is the root of the workspace
 
 ## References

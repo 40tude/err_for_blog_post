@@ -16,7 +16,7 @@ fn main() -> Result<()> {
 
 fn list_files(path: &str) -> Result<Vec<String>> {
     let files: Vec<String> = std::fs::read_dir(path)
-        .map_err(|why| format!("❗Error while reading dir. Reason = {why}"))?
+        .map_err(|why| format!("❗Error while reading dir. Reason = {why}"))? // We return custom error as formatted String
         .filter_map(|re| re.ok())
         .filter(|e| e.file_type().map(|ft| ft.is_file()).unwrap_or(false))
         .filter_map(|e| e.file_name().into_string().ok())

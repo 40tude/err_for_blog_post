@@ -1,23 +1,19 @@
-// 04_prod_code.rs  to be renamed   main.rs
-// work with
-//      error.rs.03 to be renamed   error.rs
-//      mod.rs.02   to be renamed   mod.rs
-
-// cargo run
+// main.rs
+// cargo run -p step_02
 
 // ! specific & strict errors
 // Remove the   Error::Custom               variant
 // Add the      Error::CantListEmptyFolder  specific variant
 
-mod error;
-mod fs;
-
 pub use self::error::{Error, Result};
 
-use crate::fs::list_files;
+mod error;
+mod tooling;
+
+use crate::tooling::my_lib;
 
 fn main() -> Result<()> {
-    let files = list_files("./empty")?; // see the ? here
+    let files = my_lib::list_files("./02_production/02_project/empty")?; // see the ? here
     println!("{files:#?}");
     Ok(())
 }

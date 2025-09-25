@@ -1,9 +1,8 @@
 // mod.rs.01
 
-use crate::Result; // don't forget
+use crate::Result;
 
 pub fn list_files(path: &str) -> Result<Vec<String>> {
-    // add pub
     let files: Vec<String> = std::fs::read_dir(path)?
         .filter_map(|re| re.ok())
         .filter(|e| e.file_type().map(|ft| ft.is_file()).unwrap_or(false))

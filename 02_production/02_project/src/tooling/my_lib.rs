@@ -1,6 +1,6 @@
 // mod.rs.01
 
-use crate::Result; // don't forget
+use crate::Result;
 
 pub fn list_files(path: &str) -> Result<Vec<String>> {
     // add pub
