@@ -1,5 +1,5 @@
 // ex20.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex20
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex20
 // cargo add anyhow
 
 use anyhow::{Context, Result};

@@ -1,5 +1,5 @@
-// ex03.rs
-// cargo run --example ex03
+// ex003.rs
+// cargo run -p experimentation --example ex003
 
 // ! error as &str
 

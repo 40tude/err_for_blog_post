@@ -1,5 +1,5 @@
 // ex15.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex15
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex15
 
 use std::fs::File;
 use std::io::Read;

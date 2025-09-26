@@ -1,5 +1,5 @@
-// ex02.rs
-// cargo run --example ex02
+// ex002.rs
+// cargo run -p experimentation --example ex002
 
 // ! custom error as static &str
 

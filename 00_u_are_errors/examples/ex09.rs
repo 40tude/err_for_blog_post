@@ -1,5 +1,5 @@
 // ex09.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex09
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex09
 use std::fs::File;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>; // Type Alias

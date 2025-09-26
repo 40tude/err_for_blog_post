@@ -1,5 +1,5 @@
 // ex07.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex07
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex07
 use std::fs::File;
 use std::io::{self, Read};
 

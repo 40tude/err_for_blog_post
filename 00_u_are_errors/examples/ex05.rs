@@ -1,5 +1,5 @@
 // ex05.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex05
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex05
 use std::fs::File; // shortcut
 use std::io::Read;
 

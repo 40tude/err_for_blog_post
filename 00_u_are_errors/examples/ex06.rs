@@ -1,5 +1,5 @@
 // ex06.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex06
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex06
 fn main() {
     let some_number: Option<i32> = Some(42);
     let none_number: Option<i32> = None;

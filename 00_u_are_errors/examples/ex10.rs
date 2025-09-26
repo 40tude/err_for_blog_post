@@ -1,5 +1,5 @@
 // ex10.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex10
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex10
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 

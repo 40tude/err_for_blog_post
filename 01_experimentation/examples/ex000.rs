@@ -1,5 +1,5 @@
-// ex00.rs
-// cargo run --example ex00
+// ex000.rs
+// cargo run -p experimentation --example ex000
 
 // ! type alias first use
 

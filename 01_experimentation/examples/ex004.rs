@@ -1,5 +1,5 @@
-// ex04.rs
-// cargo run --example ex04
+// ex004.rs
+// cargo run -p experimentation --example ex004
 
 // ! custom error as formatted String
 // Work because str and String can do an Into() standard error

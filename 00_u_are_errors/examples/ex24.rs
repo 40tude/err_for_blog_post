@@ -1,5 +1,5 @@
 // ex24.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex24
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex24
 // cargo add serde --features derive
 // cargo add serde_json
 // cargo add thiserror

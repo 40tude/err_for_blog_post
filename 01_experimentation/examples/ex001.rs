@@ -1,5 +1,5 @@
-// ex01.rs
-// cargo run --example ex01
+// ex001.rs
+// cargo run -p experimentation --example ex001
 
 // ! call list_files() from main()
 

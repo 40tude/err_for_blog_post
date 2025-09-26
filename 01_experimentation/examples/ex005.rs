@@ -1,5 +1,5 @@
-// ex05.rs
-// cargo run --example ex05
+// ex005.rs
+// cargo run -p experimentation --example ex005
 
 // ! custom error as formatted String
 

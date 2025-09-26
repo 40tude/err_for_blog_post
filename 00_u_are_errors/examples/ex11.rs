@@ -1,5 +1,5 @@
 // ex11.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex11
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex11
 
 fn first_char_upper(s: &str) -> Option<char> {
     // `first_char_upper()` returns Option<char>

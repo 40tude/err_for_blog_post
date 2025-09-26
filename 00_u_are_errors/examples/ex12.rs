@@ -1,5 +1,5 @@
 // ex12.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex12
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex12
 
 // ! DOES NOT COMPILE
 

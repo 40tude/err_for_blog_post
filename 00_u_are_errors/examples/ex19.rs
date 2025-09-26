@@ -1,5 +1,5 @@
 // ex19.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex19
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex19
 
 mod math_utils {
     // This module could be in a file math_utils.rs

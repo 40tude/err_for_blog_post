@@ -1,5 +1,5 @@
 // ex14.rs
-// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run --example ex14
+// CTRL+SHIFT+B to build | F5 to build and Debug | cargo run -p u_are_errors --example ex14
 
 // Using Option: No error message, just None if invalid.
 fn safe_divide_option(a: f64, b: f64) -> Option<f64> {
