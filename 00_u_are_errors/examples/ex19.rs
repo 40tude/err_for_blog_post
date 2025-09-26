@@ -42,6 +42,7 @@ fn run() -> Result<()> {
 
     let bad_ratio = divide(5.0, 0.0)?;
     println!("This won't print because of error above ({})", bad_ratio);
+
     Ok(())
 }
 

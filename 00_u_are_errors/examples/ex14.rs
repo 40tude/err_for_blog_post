@@ -23,5 +23,5 @@ fn main() {
     let x = safe_divide_option(10.0, 0.0);
     let y = safe_divide_result(10.0, 0.0);
     println!("Option version: {:?}", x); // None
-    println!("Result version: {:?}", y); // Err(Division by zero)
+    println!("Result version: {:?}", y); // Err("Division by zero")
 }
