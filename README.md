@@ -1,4 +1,7 @@
 ## Workspace
+* Make sure `rioj7.command-variable` VSCode is installed
+    * `code --install-extension rioj7.command-variable`
+    
 * From the root of the workspace 
     * u_are_errors : `cargo run -p u_are_errors --example ex00`
     * experimentation : `cargo run -p experimentation --example ex00`

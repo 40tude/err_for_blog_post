@@ -1,0 +1,48 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cargo-build-debug",
+      "type": "cargo",
+      "command": "build",
+      "args": [
+        "-p",
+        "${input:packageName}",
+        "--example",
+        "${fileBasenameNoExtension}"
+      ],
+      "problemMatcher": ["$rustc"],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "cargo-build-release",
+      "type": "cargo",
+      "command": "build",
+      "args": [
+        "--release",
+        "-p",
+        "${input:packageName}",
+        "--example",
+        "${fileBasenameNoExtension}"
+      ],
+      "problemMatcher": ["$rustc"]
+    },
+    {
+      "label": "echo-package",
+      "type": "shell",
+      "command": "echo ${input:packageName}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "packageName",
+      "type": "command",
+      "command": "extension.commandvariable.transform",
+      "args": {
+        "text": "${relativeFileDirname}",
+        "find": "^(.{3})([^\\\\/]+)(?:[\\\\/].*)?$",
+        "replace": "$2"
+      }
+    }
+  ]
+}
