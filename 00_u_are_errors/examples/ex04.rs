@@ -3,7 +3,7 @@
 use std::fs::File; // shortcut
 
 fn main() {
-    let result_file = File::open("foo.txt");
+    let result_file = File::open("00_u_are_errors/foo.txt");
 
     match result_file {
         Ok(file) => println!("Successfully opened file: {:?}", file),

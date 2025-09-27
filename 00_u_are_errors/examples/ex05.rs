@@ -4,7 +4,7 @@ use std::fs::File; // shortcut
 use std::io::Read;
 
 fn main() {
-    let result_file = File::open("foo.txt");
+    let result_file = File::open("00_u_are_errors/foo.txt");
     let mut bob = match result_file {
         Ok(alice) => alice,
         Err(why) => panic!("Panic! opening the file: {:?}", why),
