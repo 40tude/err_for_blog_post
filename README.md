@@ -1,10 +1,9 @@
 ## Workspace
-* Make sure `rioj7.command-variable` VSCode is installed
+* If you want to Debug in VSCode, make sure `rioj7.command-variable` VSCode is installed
     * `code --install-extension rioj7.command-variable`
-    
 * From the root of the workspace 
-    * u_are_errors : `cargo run -p u_are_errors --example ex00`
-    * experimentation : `cargo run -p experimentation --example ex00`
+    * u_are_errors : `cargo run -p u_are_errors --example ex17`
+    * experimentation : `cargo run -p experimentation --example ex004`
     * production : `cargo run -p step_00`
 * The working directory is the root of the workspace
 

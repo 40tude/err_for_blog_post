@@ -1,7 +1,7 @@
-// ex003.rs
-// cargo run -p experimentation --example ex003
+// ex200.rs
+// cargo run -p experimentation --example ex200
 
-// ! error as &str
+// ! First version with error
 
 pub type Error = Box<dyn std::error::Error>;
 pub type Result<T> = std::result::Result<T, Error>;

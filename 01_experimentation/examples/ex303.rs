@@ -1,7 +1,7 @@
-// ex005.rs
-// cargo run -p experimentation --example ex005
+// ex303.rs
+// cargo run -p experimentation --example ex303
 
-// ! custom error as formatted String
+// ! additional error
 
 pub type Error = Box<dyn std::error::Error>;
 pub type Result<T> = std::result::Result<T, Error>;
@@ -33,7 +33,7 @@ fn list_files(path: &str) -> Result<Vec<String>> {
         // It starts as a &'static str
         // Rust sees that the expected type is Box<dyn Error>
         // It found impl<'a> From<&str> for Box<dyn Error + 'a> in the std lib
-        // In Rust if we have From<A> to B we get Into<B> for A for free
+        // ! In Rust if we have From<A> to B we get Into<B> for A for free
         // Here this means Into<Box<dyn Error> for &str exists
         // Then the &str is automatically converted to Box<dyn Error>
         return Err("Cannot list empty folder.".into()); // No `?` because there is a .into()
