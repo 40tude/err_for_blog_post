@@ -1,7 +1,9 @@
-// mod.rs.01
+// listing.rs
 
+// We don't need to know if it is a type alias whatsoever...
 use crate::Result;
 
+// `pub` was added once in the module
 pub fn list_files(path: &str) -> Result<Vec<String>> {
     let files: Vec<String> = std::fs::read_dir(path)?
         .filter_map(|re| re.ok())

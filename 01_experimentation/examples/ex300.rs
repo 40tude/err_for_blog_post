@@ -14,8 +14,9 @@ fn main() -> Result<()> {
     // On a value of type Result<T, E>, x? does two things:
     // 1. If x is Ok(v),  it evaluates to v
     // 2. If x is Err(e), it returns early from the current function with Err(From::from(e)).
-    // That last bit means it converts the error `e` to the main() function’s error type (here, Box<dyn Error>) using From
-    let files = list_files(".")?; // see the ? here
+    // That last bit means it converts the error `e` to the main() function’s error type (here, Box<dyn Error>)
+    // ! To do so it use From trait
+    let files = list_files(".")?;
     println!("{files:#?}");
     Ok(())
 }

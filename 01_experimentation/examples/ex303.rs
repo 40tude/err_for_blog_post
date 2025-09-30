@@ -1,13 +1,13 @@
 // ex303.rs
 // cargo run -p experimentation --example ex303
 
-// ! additional error
+// ! custom error message on empty dir
 
 pub type Error = Box<dyn std::error::Error>;
 pub type Result<T> = std::result::Result<T, Error>;
 
 fn main() -> Result<()> {
-    let files = list_files(".")?; // see the ? here
+    let files = list_files("./01_experimentation/empty")?;
     println!("{files:#?}");
     Ok(())
 }
@@ -36,7 +36,7 @@ fn list_files(path: &str) -> Result<Vec<String>> {
         // ! In Rust if we have From<A> to B we get Into<B> for A for free
         // Here this means Into<Box<dyn Error> for &str exists
         // Then the &str is automatically converted to Box<dyn Error>
-        return Err("Cannot list empty folder.".into()); // No `?` because there is a .into()
+        return Err("Cannot list empty folder.".into());
     }
     Ok(files)
 }

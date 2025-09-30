@@ -4,6 +4,7 @@ members = [
     "01_experimentation",
     "02_production/00_project",
     "02_production/01_project",
+    "02_production/01_project_bis",
     "02_production/02_project",
     "02_production/03_project",
     "02_production/04_project",
