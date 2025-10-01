@@ -120,15 +120,8 @@ name = "step_01"
 version = "0.1.0"
 
 [[package]]
-name = "step_01_bis"
-version = "0.1.0"
-
-[[package]]
 name = "step_02"
 version = "0.1.0"
-dependencies = [
- "derive_more",
-]
 
 [[package]]
 name = "step_03"
@@ -139,6 +132,13 @@ dependencies = [
 
 [[package]]
 name = "step_04"
+version = "0.1.0"
+dependencies = [
+ "derive_more",
+]
+
+[[package]]
+name = "step_05"
 version = "0.1.0"
 dependencies = [
  "derive_more",

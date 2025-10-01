@@ -1,21 +1,13 @@
 // main.rs
-// cargo run -p step_03
+// cargo run -p step_02
 
-// ! specific & strict errors
-// Remove the   Error::Custom               variant in error.rs
-// Remove the impl Error section as well in error.rs
-// Add the      Error::CantListEmptyFolder  specific variant
+// ! Add derive_more 14:18
 
-
-pub use self::error::{Error, Result};
-
-mod error;
-mod tooling;
-
-use crate::tooling::my_lib;
+use step_03::Result; // uses the re-export from the lib
+use step_03::files::listing;
 
 fn main() -> Result<()> {
-    let files = my_lib::list_files("./02_production/03_project/empty")?; // see the ? here
+    let files = listing::list_files("./02_production/02_project/empty")?;
     println!("{files:#?}");
     Ok(())
 }

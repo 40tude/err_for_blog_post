@@ -1,9 +1,15 @@
-// mod.rs.01
+// listing.rs
 
-use crate::{Error, Result}; // now we need Result AND Error
+// Refer through the export at crate root
+// pub fn list_files(path: &str) -> crate::Result<Vec<String>> {
+//
+// refer directly to the original module path (no need for the re-export)
+// pub fn list_files(path: &str) -> crate::error::Result<Vec<String>> {
+//
+
+use crate::{Error, Result}; // uses the re-export from the root
 
 pub fn list_files(path: &str) -> Result<Vec<String>> {
-    // add pub
     let files: Vec<String> = std::fs::read_dir(path)?
         .filter_map(|re| re.ok())
         .filter(|e| e.file_type().map(|ft| ft.is_file()).unwrap_or(false))
@@ -14,22 +20,4 @@ pub fn list_files(path: &str) -> Result<Vec<String>> {
         return Err(Error::CantListEmptyFolder);
     }
     Ok(files)
-}
-
-// TODO : create a test
-#[cfg(test)]
-mod tests {
-    type Error = Box<dyn std::error::Error>;
-    type Result<T> = std::result::Result<T, Error>;
-
-    use super::*; // This will overwrite the 2 line above ???
-
-    #[test]
-    fn test_name() -> Result<()> {
-        // Setup
-
-        // Exec
-
-        // Check
-    }
 }

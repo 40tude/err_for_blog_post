@@ -2,7 +2,8 @@
 // cargo run -p step_00
 
 // ! transitioning to production code
-// The error in tooling/my_lib.rs is still a custom str/String
+// Split existing code in different modules
+// The error in files/listing.rs is still a custom str/String
 
 pub type Result<T> = std::result::Result<T, Error>;
 pub type Error = Box<dyn std::error::Error>;
@@ -10,10 +11,11 @@ pub type Error = Box<dyn std::error::Error>;
 mod files;
 
 // self refers to the current module.
-// If we are in main.rs, then self refers to the root module of the binary crate
-// If we are in a module file (e.g., lib.rs or a submodule), self refers to that module
-// Both lines works
-// use self::tooling::my_lib;
+//      If we are in a module file `self` refers to that module in the module tree
+//      If we are in `main.rs` (binary crate), then self refers to the root module of the binary crate
+// This is why, here, both lines below works
+//
+// use self::files::listing;
 use crate::files::listing;
 
 fn main() -> Result<()> {
