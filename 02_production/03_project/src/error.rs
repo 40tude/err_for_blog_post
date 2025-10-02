@@ -1,174 +1,51 @@
 // error.rs
-
-// In previous verison of error.rs we had
-// pub type Result<T> = std::result::Result<T, Error>;
-// pub type Error = Box<dyn std::error::Error>;
-
-
-// Imports the From derive macro.
-// It will auto-generate impl From<T> for Error for specific enum variants marked with #[from]
-//
-// Without derive_more, we would have to hand-write:
-// impl From<String> for Error {
-//     fn from(s: String) -> Self { Error::Custom(s) }
-// }
-//
-// impl From<std::io::Error> for Error {
-//     fn from(e: std::io::Error) -> Self { Error::Io(e) }
-// }
-//
-// Thanks to :
-// #[derive(From)]
-// pub enum Error {
-//     #[from] Custom(String),
-//     #[from] Io(std::io::Error),
-// }
-// derive_more allows less boilerplate, fewer chances to make mistakes, immediate compatibility with the ? operator
-
 use derive_more::From;
-// use derive_more::{From, Display}; // we don't yet need Display
 
-// With this type alias we write fn foo() -> Result<()> instead of fn foo() -> Result<(), Error>
 pub type Result<T> = std::result::Result<T, Error>;
-// Reminder of the Err type alias used in test code
-// pub type Error = Box<dyn std::error::Error>;
 
-// The From derive (from derive_more) enables generating From conversions for variants annotated with #[from]
+// We define a custom error type for the project
+// This design allows us to handle both custom business logic errors and system-level I/O errors through the same error type
+// With derive_more we get automatic conversion from String and std::io::Error into our Error type
 #[derive(Debug, From)]
 pub enum Error {
-    // An enum variant that wraps a String (Error::Custom)
-    // At this stage, Custom(String) provides a catch-all for human-readable messages that don’t come from another error type.
-    // See CantListEmptyFolder in error.rs.03
-    // The #[from] tells derive_more to generate impl From<String> for Error { ... } mapping a String into Error::Custom(string)
+    //
     #[from]
-    Custom(String),
+    Custom(String), // handles application-specific errors with custom messages
 
-    // -- Externals
-    // Another variant that wraps an external error type: std::io::Error (Error::Io)
-    // #[from] generates impl From<std::io::Error> for Error { ... }, so any io::Error can be automatically converted to our Error::Io variant
-    // This is what powers the ? operator elsewhere
-    // In fs::list_files, std::fs::read_dir(path)? returns Result<_, std::io::Error>
-    // The ? sees an io::Error, looks for From<std::io::Error> for Error, finds the derive-generated impl, converts to Error::Io, and bubbles it up as our Error
     #[from]
-    Io(std::io::Error),
+    Io(std::io::Error), // wraps standard I/O errors
 }
 
-// region:    --- Custom
 impl Error {
-    // A constructor helper named custom (it returns Self)
-    // Accepts any type that implements Display (e.g., &str, String, numbers, etc.)
-    // It converts that to a String and returns Error::Custom(...)
-    // Custom (capital C) is the enum variant name
-    // custom (lowercase c) is a helper function to build that variant from anything Display
-    // We can write :
-    //      return Err(Error::custom("Something went wrong"));
-    // Instead of : return Err(Error::Custom("Something went wrong".to_string()));
+    // The custom method provides a constructor that accepts anything implementing Display (string literals, numbers...)
+    // It converts it to a Custom error variant.
+    // This is more flexible than requiring a String directly.
     pub fn custom(val: impl std::fmt::Display) -> Self {
         Self::Custom(val.to_string())
     }
 }
 
-// Adds another conversion: &str -> Error
-// This means Err("oops".into()) becomes Err(Error::Custom("oops".to_string())).
-//      see fs/mod.rs : return Err("Cannot list empty folder.".into());
-// Note : Thanks to #[from] on Custom(String) we already have From<String> for Error. This extra impl covers the borrowed string case.
-// In other words, we now have:
-//      From<String> for Error (via derive_more on Custom(String))
-//      From<&str> for Error (manual impl)
+// The manual impl below allows direct conversion from string slices to our error type
+// It is "mandatory" because
+// #[from]
+//      Custom(&str),
+// Is not easy to compile (lifetime issues etc.) and would be confusing
+// In addition: In Rust if the trait From<A> for B exists, then we get the trait Into<B> for A for free
+// Here we define From<&str> for Error => Into<Error> for &str is available
+// We can write : return Err("something went wrong".into()).
 impl From<&str> for Error {
     fn from(val: &str) -> Self {
         Self::Custom(val.to_string())
     }
 }
 
-// Let's make sure the line `return Err("Cannot list empty folder.".into());` from fs/mod.rs is crystal clear
-// 1. **The Function return type sets the target error type**
-//    The function signature is:
-//
-//    ```rust
-//    pub fn list_files(path: &str) -> Result<Vec<String>>
-//    ```
-//
-//    and the alias is:
-//
-//    ```rust
-//    pub type Result<T> = std::result::Result<T, Error>;
-//    ```
-//    So the `Err(...)` *must* be an `Error`.
-//
-// 2. **Start with a `&'static str`**
-//    The literal `"Cannot list empty folder."` has type `&'static str`.
-//
-// 3. **`.into()` uses the `Into` trait with type inference**
-//    Because the surrounding context requires an `Error`, the compiler reads:
-//
-//    ```rust
-//    (&'static str).into::<Error>()
-//    ```
-// 4. **Rust uses the blanket rule “`Into<T>` if `From<U> for T` exists”**
-//    There is a generic impl:
-//
-//    ```rust
-//    impl<T, U> Into<T> for U
-//    where
-//        T: From<U>,
-//    {
-//        fn into(self) -> T { T::from(self) }
-//    }
-//    ```
-//    Therefore, `.into::<Error>()` works **iff** there is an `impl From<&str> for Error`.
-//
-// 5. This is where `impl From<&str> for Error` kicks in
-//    We have :
-//
-//    ```rust
-//    impl From<&str> for Error {
-//        fn from(val: &str) -> Self {
-//            Self::Custom(val.to_string())
-//        }
-//    }
-//    ```
-//    So `.into()` calls `Error::from(&str)`, which builds:
-//
-//    ```rust
-//    Error::Custom("Cannot list empty folder.".to_string())
-//    ```
-//
-//    Then `Err(...)` returns `Err(Error::Custom(...))`.
-//
-
-// endregion: --- Custom
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// region:    --- Error Boilerplate
-
-// Implements how our Error is printed with {}.
-// Manadatory if we want our Error to used as a standard error (see next impl)
-// It delegates to the Debug representation ({:?}), which is fine since it is not for user-facing messages
+// The Display implementation takes a shortcut by using debug formatting ({self:?}) instead of providing user-friendly messages.
 impl std::fmt::Display for Error {
     fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::result::Result<(), core::fmt::Error> {
-        write!(fmt, "{self:?}") // only debug print here
+        write!(fmt, "🔎 {self:?}") // only debug print here
     }
 }
 
-// Marks our Error type as a standard error that can participate in error chains (as `?` for example)
+// Implement the standard Error trait for integration with other error tooling.
+// Error must implement Debug and Display (see above )
 impl std::error::Error for Error {}
-
-// endregion: --- Error Boilerplate

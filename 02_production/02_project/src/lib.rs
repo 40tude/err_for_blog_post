@@ -2,5 +2,6 @@
 pub mod error;
 pub mod files;
 
-// re-export lib from crate root
-pub use self::error::{Error, Result};
+// re-export modules from the root
+// pub use self::error::{Error, Result};
+pub use crate::error::{Error, Result};
