@@ -31,6 +31,7 @@ impl fmt::Display for ConfigError {
 }
 
 // Implement the standard Error trait for integration with other error tooling.
+// To implement the std::error::Error trait for ConfigError, ConfigError must implement Debug and Display
 impl std::error::Error for ConfigError {}
 
 // Map the inner errors explicitly (uses map_err).

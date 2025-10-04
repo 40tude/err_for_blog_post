@@ -1,36 +1,39 @@
 // error.rs
-use derive_more::From;
+use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-// We define a custom error type for the project
+// Custom error type for the project
 // This design allows us to handle both custom business logic errors and system-level I/O errors through the same error type
-// With derive_more we get automatic conversion from String and std::io::Error into our Error type
-#[derive(Debug, From)]
+// With `thiserror`, we can attach per-variant messages and automatic conversions (`#[from]`) without writing the boilerplate manually
+#[derive(Debug, Error)]
 pub enum Error {
-    //
-    #[from]
-    Custom(String), // handles application-specific errors with custom messages
+    // Handles application-specific errors with custom messages.
+    // `Display` comes from the `#[error]` attribute.
+    #[error("Custom error - {0}")]
+    Custom(String),
 
-    #[from]
-    Io(std::io::Error), // wraps standard I/O errors
+    // Wraps standard I/O errors.
+    // `#[from]` gives us `From<std::io::Error> for Error` automatically.
+    // Without transparent => Error: I/O error: No such file or directory (os error 2)
+    // With transparent    => Error: No such file or directory (os error 2)
+    //
+    #[error(transparent)]
+    // #[error("**** I/O error: {0}")]
+    Io(#[from] std::io::Error),
 }
 
 impl Error {
-    // The custom method provides a constructor that accepts anything implementing Display (string literals, numbers...)
-    // It converts it to a Custom error variant.
-    // This is more flexible than requiring a String directly.
+    // A convenience constructor that accepts anything implementing `Display` (string literals, numbers...)
+    // It converts `val` to a Error::Custom variant
+    // This is more flexible than requiring a String directly
+    // This allows us to write `Error::custom("foo")` instead of manually allocating a `String`.
     pub fn custom(val: impl std::fmt::Display) -> Self {
         Self::Custom(val.to_string())
     }
 }
 
-// The manual impl below allows direct conversion from string slices to our error type
-// It is "mandatory" because
-// #[from]
-//      Custom(&str),
-// Is not easy to compile (lifetime issues etc.) and would be confusing
-// In addition: In Rust if the trait From<A> for B exists, then we get the trait Into<B> for A for free
+// In Rust if the trait From<A> for B exists, then we get the trait Into<B> for A for free
 // Here we define From<&str> for Error => Into<Error> for &str is available
 // We can write : return Err("something went wrong".into()).
 impl From<&str> for Error {
@@ -38,14 +41,3 @@ impl From<&str> for Error {
         Self::Custom(val.to_string())
     }
 }
-
-// The Display implementation takes a shortcut by using debug formatting ({self:?}) instead of providing user-friendly messages.
-impl std::fmt::Display for Error {
-    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::result::Result<(), core::fmt::Error> {
-        write!(fmt, "🔎 {self:?}") // only debug print here
-    }
-}
-
-// Implement the standard Error trait for integration with other error tooling.
-// Error must implement Debug and Display (see above )
-impl std::error::Error for Error {}

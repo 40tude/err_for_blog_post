@@ -1,18 +1,19 @@
 // main.rs
-// cargo run -p step_02
+// cargo run -p step_04
+// cargo add thiserror --package step_04
 
-// ! Add derive_more
+// ! Add thiserror
 
-use step_04::Result; // uses the re-export from the lib
+use step_04::Result;
 use step_04::files::listing;
 
 fn main() -> Result<()> {
     match listing::list_files(".") {
-        Ok(files) => println!("Files found: {files:#?}"),
+        Ok(files) => println!("Files found   : {files:#?}"),
         Err(e) => println!("Error: {e}"),
     }
 
-    match listing::list_files("./02_production/03_project/empty") {
+    match listing::list_files("./02_production/04_project/empty") {
         Ok(files) => println!("Files found   : {files:#?}"),
         Err(e) => println!("Error detected: {e}"),
     }
