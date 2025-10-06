@@ -1,13 +1,6 @@
 // listing.rs
 
-// Refer through the export at crate root
-// pub fn list_files(path: &str) -> crate::Result<Vec<String>> {
-//
-// refer directly to the original module path (no need for the re-export)
-// pub fn list_files(path: &str) -> crate::error::Result<Vec<String>> {
-//
-
-use crate::{Error, Result}; // uses the re-export from the root
+use crate::{Error, Result};
 
 pub fn list_files(path: &str) -> Result<Vec<String>> {
     let files: Vec<String> = std::fs::read_dir(path)?
@@ -23,21 +16,48 @@ pub fn list_files(path: &str) -> Result<Vec<String>> {
 
 #[cfg(test)]
 mod test {
-    type Result<T> = std::result::Result<T, Error>;
-    type Error = Box<dyn std::error::Error>;
 
     use super::*;
 
+    // ! cwd is 06_project/ NOT 018_err_for_blog_post/ (workspace)
     #[test]
-    fn test_01() {
-        let result = list_files("./02_production/02_project/empty");
-        println!("*************** {result:#?}");
+    fn test_empty_folder() {
+        let result = list_files("./empty");
         assert!(matches!(result, Err(Error::CantListEmptyFolder)));
     }
 
-    // fn test_02()-> Result{
-    //     let files = listing::list_files("./02_production/02_project/empty")?;
-    //     assert("Error: CantListEmptyFolder")
+    #[test]
+    fn test_non_existing_folder() {
+        let result = list_files("./non_existent_folder");
+        match result {
+            Err(Error::Io(_)) => {} // ok, this is an I/O error
+            other => panic!("Expected Error::Io, got {:?}", other),
+        }
+    }
 
-    // }
+    #[test]
+    fn test_current_folder_contains_expected_files_v1() {
+        let result = list_files(".").expect("Should list current directory");
+        assert_eq!(result, vec!["Cargo.lock", "Cargo.toml"]);
+    }
+
+    // Cannot be sure of the order => sort
+    #[test]
+    fn test_current_folder_contains_expected_files_v2() {
+        let mut files = list_files(".").expect("Should list current directory");
+        files.sort();
+        let mut expected = vec!["Cargo.lock".to_string(), "Cargo.toml".to_string()];
+        expected.sort();
+        assert_eq!(files, expected);
+    }
+
+    // Cannot be sure of the order
+    // Cannot be sure other files are not added
+    // Just checks both files are present
+    #[test]
+    fn test_current_folder_contains_expected_files_v3() {
+        let files = list_files(".").expect("Should list current directory");
+        assert!(files.contains(&"Cargo.toml".to_string()));
+        assert!(files.contains(&"Cargo.lock".to_string()));
+    }
 }

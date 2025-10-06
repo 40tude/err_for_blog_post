@@ -1,3 +1,4 @@
+// error.rs
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -11,11 +12,6 @@ pub enum Error {
     // `Display` comes from the `#[error]` attribute.
     #[error("⛔ Cannot list an empty folder")]
     CantListEmptyFolder,
-
-    // The folder does not exist
-    // `Display` comes from the `#[error]` attribute.
-    #[error("⛔ Cannot list a non-existent folder")]
-    CanListNonExistentFolder,
 
     // Wraps I/O errors (e.g. file not found, permission denied, etc.)
     // `#[from]` gives us `From<std::io::Error> for Error` automatically.
