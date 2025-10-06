@@ -2,7 +2,7 @@
 // cargo run -p step_04
 // cargo add thiserror --package step_04
 
-// ! Add thiserror
+// !
 
 use step_04::Result;
 use step_04::files::listing;

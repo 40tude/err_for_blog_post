@@ -1,23 +1,25 @@
-use derive_more::From;
+use thiserror::Error;
+
 pub type Result<T> = std::result::Result<T, Error>;
-#[derive(Debug, From)]
+
+// Custom error type for the project
+// This design allows us to handle both custom business logic errors and system-level I/O errors through the same error type
+// With `thiserror`, we can attach per-variant messages and automatic conversions (`#[from]`) without writing the boilerplate manually
+#[derive(Debug, Error)]
 pub enum Error {
-    // -- listing
-    // #[display()...)]  // ! Make a test with a CLI
+    // The folder exists but is empty
+    // `Display` comes from the `#[error]` attribute.
+    #[error("⛔ Cannot list an empty folder")]
     CantListEmptyFolder,
 
-    #[from]
-    Io(std::io::Error),
-}
+    // The folder does not exist
+    // `Display` comes from the `#[error]` attribute.
+    #[error("⛔ Cannot list a non-existent folder")]
+    CanListNonExistentFolder,
 
-// Implements how our Error is printed with {}.
-// Manadatory if we want our Error to used as a standard error (see next impl)
-// It delegates to the Debug representation ({:?}), which is fine since it is not for user-facing messages
-impl std::fmt::Display for Error {
-    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::result::Result<(), core::fmt::Error> {
-        write!(fmt, "{self:?}") // only debug print here
-    }
+    // Wraps I/O errors (e.g. file not found, permission denied, etc.)
+    // `#[from]` gives us `From<std::io::Error> for Error` automatically.
+    #[error(transparent)]
+    // #[error("⛔ I/O error: {0}")]
+    Io(#[from] std::io::Error),
 }
-
-// Marks our Error type as a standard error that can participate in error chains (as `?` for example)
-impl std::error::Error for Error {}

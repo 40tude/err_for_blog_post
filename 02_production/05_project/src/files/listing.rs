@@ -1,10 +1,10 @@
 // listing.rs
 
-// uses the re-export from the root
 use crate::{Error, Result};
 
 pub fn list_files(path: &str) -> Result<Vec<String>> {
-    let files: Vec<String> = std::fs::read_dir(path)?
+    let files: Vec<String> = std::fs::read_dir(path)
+        .map_err(|_| Error::CanListNonExistentFolder)?
         .filter_map(|re| re.ok())
         .filter(|e| e.file_type().map(|ft| ft.is_file()).unwrap_or(false))
         .filter_map(|e| e.file_name().into_string().ok())

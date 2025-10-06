@@ -141,7 +141,7 @@ dependencies = [
 name = "step_05"
 version = "0.1.0"
 dependencies = [
- "derive_more",
+ "thiserror",
 ]
 
 [[package]]

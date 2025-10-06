@@ -1,6 +1,5 @@
 // listing.rs
 
-// uses the re-export from the root
 use crate::Result;
 
 pub fn list_files(path: &str) -> Result<Vec<String>> {
